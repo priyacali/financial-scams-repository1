@@ -1,0 +1,799 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" href="data:," />
+  <title>Financial Scams Repository</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light dark;
+      --ink: #151916;
+      --muted: #5b635d;
+      --faint: #818a84;
+      --paper: #f3f5f0;
+      --surface: #ffffff;
+      --surface-2: #e8ece6;
+      --line: #ced5cd;
+      --line-strong: #9aa59b;
+      --green: #0d633e;
+      --green-2: #0a4b30;
+      --green-soft: #d7eee1;
+      --amber: #a64c09;
+      --amber-soft: #fff0d7;
+      --red: #a72f27;
+      --red-soft: #fae2df;
+      --blue: #255b88;
+      --blue-soft: #e0edf7;
+      --shadow: 0 16px 50px rgba(31, 45, 35, .10);
+      --max: 1220px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --ink: #edf2ed;
+        --muted: #b9c2bb;
+        --faint: #8e9991;
+        --paper: #101411;
+        --surface: #181e1a;
+        --surface-2: #202822;
+        --line: #344038;
+        --line-strong: #647268;
+        --green: #63d398;
+        --green-2: #8be2b2;
+        --green-soft: #183b2a;
+        --amber: #ffb261;
+        --amber-soft: #412c18;
+        --red: #ff8d84;
+        --red-soft: #41231f;
+        --blue: #90c7ef;
+        --blue-soft: #20384b;
+        --shadow: 0 18px 56px rgba(0, 0, 0, .34);
+      }
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Atkinson Hyperlegible", ui-sans-serif, system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    button, input, textarea { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    a { color: var(--green); text-underline-offset: 3px; }
+    .shell { width: min(var(--max), calc(100% - 40px)); margin: 0 auto; }
+    .topline { height: 6px; background: linear-gradient(90deg, var(--green) 0 62%, var(--amber) 62% 81%, var(--red) 81%); }
+    header { padding: 48px 0 28px; }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr); gap: 46px; align-items: end; }
+    .eyebrow { font-family: "IBM Plex Mono", monospace; color: var(--green); font-size: .76rem; letter-spacing: .09em; text-transform: uppercase; font-weight: 600; }
+    h1 { margin: 10px 0 16px; font-size: clamp(2.35rem, 6vw, 5rem); line-height: .98; letter-spacing: -.045em; max-width: 830px; }
+    .lede { max-width: 690px; margin: 0; color: var(--muted); font-size: clamp(1.05rem, 2vw, 1.22rem); }
+    .snapshot { padding-left: 22px; border-left: 2px solid var(--line-strong); }
+    .snapshot strong { display: block; font-size: 1.1rem; margin-bottom: 6px; }
+    .snapshot p { margin: 0; color: var(--muted); font-size: .94rem; }
+    .metric-strip { margin-top: 34px; display: grid; grid-template-columns: repeat(3, 1fr); background: var(--ink); color: var(--paper); }
+    .metric { padding: 20px 22px; min-height: 108px; border-right: 1px solid color-mix(in srgb, var(--paper) 20%, transparent); }
+    .metric:last-child { border-right: 0; }
+    .metric b { display: block; font-size: clamp(1.45rem, 3vw, 2.15rem); line-height: 1; margin-bottom: 9px; }
+    .metric span { color: color-mix(in srgb, var(--paper) 72%, transparent); font-size: .88rem; }
+    .metric a { color: inherit; }
+    .tabs-wrap { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--paper) 92%, transparent); backdrop-filter: blur(12px); border-block: 1px solid var(--line); }
+    .tabs { display: flex; gap: 8px; padding: 10px 0; }
+    .tab {
+      border: 0; background: transparent; color: var(--muted); padding: 10px 16px; border-radius: 6px; cursor: pointer; font-weight: 700;
+    }
+    .tab[aria-selected="true"] { background: var(--ink); color: var(--paper); }
+    .tab .count { font-family: "IBM Plex Mono", monospace; font-size: .76rem; opacity: .75; margin-left: 7px; }
+    main { padding: 34px 0 72px; }
+    .view[hidden] { display: none; }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 20px; }
+    .section-head h2 { margin: 0; font-size: clamp(1.5rem, 3vw, 2.2rem); letter-spacing: -.025em; }
+    .section-head p { margin: 5px 0 0; color: var(--muted); }
+    .search-block { background: var(--surface); border: 1px solid var(--line); padding: 16px; box-shadow: 0 3px 0 var(--line); margin-bottom: 22px; }
+    .search-row { display: flex; gap: 10px; align-items: center; }
+    .search-icon { color: var(--faint); flex: 0 0 auto; }
+    input[type="search"] { width: 100%; border: 0; outline: 0; background: transparent; color: var(--ink); font-size: 1.04rem; min-width: 0; }
+    input::placeholder, textarea::placeholder { color: var(--faint); opacity: 1; }
+    .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
+    .chip { border: 1px solid var(--line); background: var(--surface-2); color: var(--muted); padding: 7px 11px; border-radius: 999px; cursor: pointer; font-size: .9rem; }
+    .chip[aria-pressed="true"] { background: var(--green-soft); color: var(--green-2); border-color: var(--green); font-weight: 700; }
+    .result-line { font-family: "IBM Plex Mono", monospace; font-size: .78rem; color: var(--muted); margin: 0 0 12px; }
+    .catalog { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .case-card {
+      appearance: none; text-align: left; color: inherit; border: 1px solid var(--line); background: var(--surface); padding: 0; cursor: pointer; min-height: 285px; display: flex; flex-direction: column; transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+    }
+    .case-card:hover { border-color: var(--green); transform: translateY(-2px); box-shadow: var(--shadow); }
+    .case-card:focus-visible, .tab:focus-visible, .chip:focus-visible, .primary:focus-visible, .secondary:focus-visible, .close:focus-visible, .report-link:focus-visible, .text-link:focus-visible { outline: 3px solid color-mix(in srgb, var(--green) 42%, transparent); outline-offset: 3px; }
+    .card-top { padding: 18px 18px 14px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    .case-id { font-family: "IBM Plex Mono", monospace; color: var(--faint); font-size: .76rem; }
+    .risk { font-family: "IBM Plex Mono", monospace; font-size: .7rem; border-radius: 999px; padding: 5px 8px; font-weight: 600; }
+    .risk.critical { color: var(--red); background: var(--red-soft); }
+    .risk.high { color: var(--amber); background: var(--amber-soft); }
+    .risk.elevated { color: var(--blue); background: var(--blue-soft); }
+    .card-main { padding: 18px; flex: 1; }
+    .case-card h3 { margin: 0 0 8px; font-size: 1.27rem; line-height: 1.2; letter-spacing: -.015em; }
+    .case-card p { margin: 0; color: var(--muted); font-size: .94rem; }
+    .signals { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; }
+    .signal { font-family: "IBM Plex Mono", monospace; font-size: .67rem; padding: 4px 7px; background: var(--surface-2); color: var(--muted); border-radius: 3px; }
+    .card-foot { border-top: 1px solid var(--line); padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; color: var(--green); font-weight: 700; font-size: .88rem; }
+    .empty { grid-column: 1 / -1; padding: 54px 22px; text-align: center; border: 1px dashed var(--line-strong); color: var(--muted); background: var(--surface); }
+
+    .checker-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(320px, .95fr); gap: 22px; align-items: start; }
+    .checker-panel, .result-panel { background: var(--surface); border: 1px solid var(--line); }
+    .checker-panel { padding: clamp(22px, 4vw, 38px); }
+    .checker-panel h2 { margin: 0 0 10px; font-size: clamp(1.9rem, 4vw, 3.2rem); letter-spacing: -.04em; line-height: 1.02; }
+    .checker-panel > p { color: var(--muted); margin: 0 0 22px; max-width: 660px; }
+    label { display: block; font-weight: 700; margin-bottom: 8px; }
+    textarea { width: 100%; min-height: 230px; resize: vertical; border: 1px solid var(--line-strong); border-radius: 4px; padding: 15px; background: var(--paper); color: var(--ink); outline: none; line-height: 1.55; }
+    textarea:focus { border-color: var(--green); box-shadow: 0 0 0 3px color-mix(in srgb, var(--green) 16%, transparent); }
+    .helper { display: flex; justify-content: space-between; gap: 18px; color: var(--faint); font-size: .82rem; margin-top: 7px; }
+    .actions { display: flex; gap: 10px; margin-top: 18px; }
+    .primary, .secondary, .close { border: 0; cursor: pointer; font-weight: 700; }
+    .primary { background: var(--green); color: #fff; padding: 11px 17px; border-radius: 5px; }
+    .secondary { background: var(--surface-2); color: var(--ink); padding: 11px 17px; border-radius: 5px; }
+    .result-panel { padding: clamp(22px, 4vw, 32px); min-height: 445px; position: sticky; top: 78px; }
+    .result-placeholder { min-height: 380px; display: grid; place-items: center; text-align: center; color: var(--muted); }
+    .radar-mark { width: 82px; height: 82px; border: 1px solid var(--line-strong); border-radius: 50%; margin: 0 auto 18px; position: relative; }
+    .radar-mark:before, .radar-mark:after { content: ""; position: absolute; inset: 14px; border: 1px solid var(--line); border-radius: 50%; }
+    .radar-mark:after { inset: 31px; background: var(--green); border: 0; }
+    .score-wrap { display: flex; align-items: end; justify-content: space-between; gap: 14px; border-bottom: 1px solid var(--line); padding-bottom: 22px; }
+    .score-wrap h3 { margin: 0; font-size: 1.6rem; }
+    .score-wrap p { margin: 4px 0 0; color: var(--muted); }
+    .score { font-family: "IBM Plex Mono", monospace; font-weight: 600; font-size: 2.5rem; line-height: 1; }
+    .score.high { color: var(--red); } .score.medium { color: var(--amber); } .score.low { color: var(--green); }
+    .meter { height: 7px; background: var(--surface-2); margin: 16px 0 8px; overflow: hidden; }
+    .meter > span { display: block; height: 100%; width: 0; background: var(--green); transition: width .35s ease; }
+    .meter > span.medium { background: var(--amber); } .meter > span.high { background: var(--red); }
+    .matches { margin-top: 22px; }
+    .matches h4 { margin: 0 0 10px; font-size: 1rem; }
+    .match-item { padding: 14px 0; border-top: 1px solid var(--line); }
+    .match-item:first-of-type { border-top: 0; }
+    .match-head { display: flex; justify-content: space-between; gap: 14px; }
+    .match-head b { font-size: .98rem; }
+    .match-head span { font-family: "IBM Plex Mono", monospace; color: var(--faint); font-size: .72rem; }
+    .match-item p { color: var(--muted); margin: 5px 0 0; font-size: .88rem; }
+    .disclaimer { margin-top: 20px; background: var(--amber-soft); color: var(--ink); padding: 13px 14px; font-size: .82rem; border-left: 3px solid var(--amber); }
+
+    .report-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(320px, .95fr); gap: 22px; align-items: start; }
+    .report-panel, .report-output { background: var(--surface); border: 1px solid var(--line); }
+    .report-panel { padding: clamp(22px, 4vw, 38px); }
+    .report-panel h2 { margin: 0 0 10px; font-size: clamp(1.9rem, 4vw, 3.2rem); letter-spacing: -.04em; line-height: 1.02; }
+    .report-panel > p { color: var(--muted); margin: 0 0 24px; max-width: 660px; }
+    .field + .field { margin-top: 18px; }
+    .field label { margin-bottom: 7px; }
+    input[type="url"], select { width: 100%; border: 1px solid var(--line-strong); border-radius: 4px; padding: 12px 13px; background: var(--paper); color: var(--ink); outline: none; }
+    input[type="url"]:focus, select:focus { border-color: var(--green); box-shadow: 0 0 0 3px color-mix(in srgb, var(--green) 16%, transparent); }
+    .report-panel textarea { min-height: 145px; }
+    .field-note { margin: 7px 0 0; color: var(--faint); font-size: .82rem; }
+    .form-status { min-height: 24px; margin: 9px 0 -6px; color: var(--red); font-weight: 700; font-size: .88rem; }
+    .report-output { padding: clamp(22px, 4vw, 32px); min-height: 476px; position: sticky; top: 78px; }
+    .report-output h3 { margin: 0 0 5px; font-size: 1.45rem; }
+    .report-output > p, .share-note { color: var(--muted); }
+    .report-preview { margin-top: 20px; border-block: 1px solid var(--line); padding: 18px 0; }
+    .report-preview-label { font-family: "IBM Plex Mono", monospace; color: var(--green); font-size: .74rem; font-weight: 600; margin-bottom: 10px; }
+    .report-copy { margin: 0; color: var(--ink); font: inherit; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .share-note { margin: 12px 0 0; font-size: .82rem; }
+    .official-reporting { margin-top: 28px; border-top: 1px solid var(--line-strong); padding-top: 24px; }
+    .official-reporting h3 { margin: 0 0 5px; font-size: 1.3rem; }
+    .official-reporting > p { margin: 0 0 15px; color: var(--muted); }
+    .report-links { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 1px solid var(--line); background: var(--line); gap: 1px; }
+    .report-link { display: block; background: var(--surface); padding: 17px; text-decoration: none; color: var(--ink); }
+    .report-link strong { display: block; margin-bottom: 4px; }
+    .report-link span { display: block; color: var(--muted); font-size: .86rem; }
+    .report-link:hover strong { color: var(--green); }
+    a.primary, a.secondary { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; }
+    .text-link { border: 0; padding: 0; background: none; color: var(--green); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; font-weight: 700; }
+
+    .quick-guide { margin-top: 52px; border-top: 1px solid var(--line-strong); padding-top: 30px; }
+    .quick-guide h2 { font-size: 1.7rem; margin: 0 0 18px; }
+    .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+    .step { background: var(--surface); padding: 20px; }
+    .step b { font-family: "IBM Plex Mono", monospace; color: var(--green); font-size: .78rem; display: block; margin-bottom: 8px; }
+    .step h3 { margin: 0 0 7px; font-size: 1.08rem; }
+    .step p { margin: 0; color: var(--muted); font-size: .9rem; }
+    .sources { margin-top: 46px; padding-top: 26px; border-top: 1px solid var(--line); }
+    .sources h2 { margin: 0 0 6px; font-size: 1.28rem; }
+    .sources > p { margin: 0 0 15px; color: var(--muted); font-size: .9rem; }
+    .source-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 28px; }
+    .source-list a { font-size: .9rem; }
+    footer { padding: 26px 0 40px; color: var(--faint); font-size: .82rem; }
+
+    .backdrop { position: fixed; inset: 0; background: rgba(8, 13, 10, .62); z-index: 40; opacity: 0; pointer-events: none; transition: opacity .18s ease; }
+    .backdrop.open { opacity: 1; pointer-events: auto; }
+    .drawer { position: fixed; z-index: 50; inset: 0 0 0 auto; width: min(560px, 94vw); background: var(--surface); box-shadow: -25px 0 70px rgba(0,0,0,.26); transform: translateX(102%); transition: transform .22s ease; overflow-y: auto; }
+    .drawer.open { transform: translateX(0); }
+    .drawer-top { position: sticky; top: 0; background: var(--surface); border-bottom: 1px solid var(--line); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 2; }
+    .drawer-top span { font-family: "IBM Plex Mono", monospace; font-size: .76rem; color: var(--faint); }
+    .close { width: 38px; height: 38px; border-radius: 50%; background: var(--surface-2); color: var(--ink); font-size: 1.25rem; }
+    .drawer-body { padding: 28px 26px 50px; }
+    .drawer-body h2 { margin: 8px 0 10px; font-size: 2.1rem; line-height: 1.04; letter-spacing: -.035em; }
+    .drawer-body .summary { color: var(--muted); font-size: 1.03rem; margin: 0 0 24px; }
+    .detail-section { border-top: 1px solid var(--line); padding-top: 20px; margin-top: 20px; }
+    .detail-section h3 { margin: 0 0 10px; font-size: 1rem; }
+    .detail-section ul { margin: 0; padding-left: 20px; color: var(--muted); }
+    .detail-section li + li { margin-top: 7px; }
+    .source-link { display: inline-flex; align-items: center; gap: 7px; font-weight: 700; }
+    body.modal-open { overflow: hidden; }
+
+    @media (max-width: 900px) {
+      .hero-grid, .checker-grid, .report-grid { grid-template-columns: 1fr; }
+      .snapshot { max-width: 650px; }
+      .catalog { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .result-panel, .report-output { position: static; min-height: 0; }
+      .steps, .report-links { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 620px) {
+      .shell { width: min(100% - 24px, var(--max)); }
+      header { padding: 32px 0 22px; }
+      .hero-grid { gap: 25px; }
+      .snapshot { padding-left: 15px; }
+      .metric-strip { grid-template-columns: 1fr; }
+      .metric { min-height: auto; border-right: 0; border-bottom: 1px solid color-mix(in srgb, var(--paper) 20%, transparent); }
+      .metric:last-child { border-bottom: 0; }
+      .tabs { width: 100%; }
+      .tab { flex: 1; padding: 10px 6px; font-size: .9rem; }
+      .tab .count { display: none; }
+      main { padding-top: 24px; }
+      .section-head { align-items: start; flex-direction: column; }
+      .catalog { grid-template-columns: 1fr; }
+      .case-card { min-height: 0; }
+      .checker-panel { padding: 22px 18px; }
+      .helper { flex-direction: column; gap: 2px; }
+      .actions { flex-direction: column; }
+      .primary, .secondary { width: 100%; }
+      .score-wrap { align-items: start; flex-direction: column; }
+      .steps, .source-list, .report-links { grid-template-columns: 1fr; }
+      .report-panel { padding: 22px 18px; }
+      .drawer { inset: auto 0 0; width: 100%; height: min(88vh, 760px); transform: translateY(102%); border-radius: 14px 14px 0 0; }
+      .drawer.open { transform: translateY(0); }
+      .drawer-body { padding: 24px 20px 40px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+    @media print {
+      .tabs-wrap, .search-block, .checker-panel, .backdrop, .drawer { display: none !important; }
+      body { background: white; color: black; }
+      .case-card { break-inside: avoid; box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topline" aria-hidden="true"></div>
+  <header>
+    <div class="shell">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">Fraud pattern intelligence · U.S. sources</div>
+          <h1>Recognize the pattern before money moves.</h1>
+          <p class="lede">A practical field guide to common financial scams: how they work, the signals they leave behind, and the controls that can interrupt them.</p>
+        </div>
+        <aside class="snapshot">
+          <strong>Curated reference</strong>
+          <p>28 scam patterns across consumer, payment, identity, investment, and business fraud. Source review: September 2026.</p>
+        </aside>
+      </div>
+    </div>
+  </header>
+
+  <nav class="tabs-wrap" aria-label="Repository sections">
+    <div class="shell tabs" role="tablist">
+      <button class="tab" id="catalog-tab" role="tab" aria-selected="true" aria-controls="catalog-view" data-target="catalog-view" data-focus="search">Explore scams <span class="count">28</span></button>
+      <button class="tab" id="checker-tab" role="tab" aria-selected="false" aria-controls="checker-view" data-target="checker-view" data-focus="story">Check your story</button>
+      <button class="tab" id="report-tab" role="tab" aria-selected="false" aria-controls="report-view" data-target="report-view" data-focus="google-report-link">Report a site</button>
+    </div>
+  </nav>
+
+  <main class="shell">
+    <section class="view" id="catalog-view" role="tabpanel" aria-labelledby="catalog-tab">
+      <div class="section-head">
+        <div><h2>Scam pattern index</h2><p>Search by tactic, channel, payment rail, or red flag.</p></div>
+      </div>
+      <div class="search-block">
+        <div class="search-row">
+          <svg class="search-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input id="search" type="search" autocomplete="off" placeholder="Try “gift card”, “wire”, “crypto”, or “remote access”" aria-label="Search scams" />
+        </div>
+        <div class="filters" id="filters" aria-label="Filter by category"></div>
+      </div>
+      <p class="result-line" id="result-count" aria-live="polite"></p>
+      <div class="catalog" id="catalog"></div>
+    </section>
+
+    <section class="view" id="checker-view" role="tabpanel" aria-labelledby="checker-tab" hidden>
+      <div class="checker-grid">
+        <div class="checker-panel">
+          <div class="eyebrow">Pattern check</div>
+          <h2>Does this story look like a scam?</h2>
+          <p>Paste what happened—what the person claimed, how they contacted you, what they asked for, and how they wanted to be paid. The check runs only in this page and is not saved.</p>
+          <label for="story">Describe the situation</label>
+          <textarea id="story" maxlength="4000" placeholder="Example: Someone called claiming to be from my bank and said I had to move my savings to a safe account today…"></textarea>
+          <div class="helper"><span>Include payment method and urgency cues if known.</span><span id="char-count">0 / 4,000</span></div>
+          <div class="actions">
+            <button class="primary" id="analyze">Check the pattern</button>
+            <button class="secondary" id="clear-story">Clear</button>
+          </div>
+        </div>
+        <aside class="result-panel" id="result-panel" aria-live="polite">
+          <div class="result-placeholder" id="result-placeholder">
+            <div><div class="radar-mark" aria-hidden="true"></div><strong>Your result will appear here</strong><p>We’ll compare your description with the 28 patterns in this repository.</p></div>
+          </div>
+          <div id="analysis-result" hidden></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="view" id="report-view" role="tabpanel" aria-labelledby="report-tab" hidden>
+      <div class="report-panel">
+        <div class="eyebrow">Community reporting</div>
+        <h2>Flag a suspicious website</h2>
+        <p>Submit the website and what you observed through the report form. Your response goes to the Financial Scams Repository curator for review before anything is added to the public collection.</p>
+        <div class="actions">
+          <a class="primary" id="google-report-link" href="https://forms.gle/9wCyZoc3jQmFEVEF8" target="_blank" rel="noopener">Open the report form ↗</a>
+        </div>
+        <p class="field-note">The form opens in a new tab. Do not include passwords, account numbers, one-time codes, or other sensitive financial information.</p>
+      </div>
+
+      <div class="official-reporting" id="official-reporting">
+        <h3>Send it where action can be taken</h3>
+        <p>Choose the route that matches what you saw. These links open the official reporting pages; this repository does not submit the report for you.</p>
+        <div class="report-links">
+          <a class="report-link" href="https://support.google.com/ads/contact/vio_other_aw_policy?hl=en" target="_blank" rel="noopener"><strong>Report a Google ad ↗</strong><span>For a deceptive sponsored ad or shopping listing.</span></a>
+          <a class="report-link" href="https://www.google.com/safebrowsing/report_phish/?hl=en" target="_blank" rel="noopener"><strong>Google Safe Browsing ↗</strong><span>For a phishing page that imitates another site.</span></a>
+          <a class="report-link" href="https://ReportFraud.ftc.gov/#/?orgcode=TFMICF" target="_blank" rel="noopener"><strong>FTC ReportFraud ↗</strong><span>For scams, bad business practices, and consumer fraud.</span></a>
+          <a class="report-link" href="https://ic3.gov/" target="_blank" rel="noopener"><strong>FBI IC3 ↗</strong><span>For internet-enabled fraud and cybercrime.</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="quick-guide" aria-labelledby="response-title">
+      <h2 id="response-title">If money or information already moved</h2>
+      <div class="steps">
+        <article class="step"><b>01 · STOP</b><h3>End contact</h3><p>Do not send another payment, share another code, or install requested software.</p></article>
+        <article class="step"><b>02 · CALL</b><h3>Contact the institution</h3><p>Use the number on your card or official statement. Ask about holds, recalls, and credential resets.</p></article>
+        <article class="step"><b>03 · PRESERVE</b><h3>Save evidence</h3><p>Keep messages, receipts, account details, phone numbers, and a timeline of what happened.</p></article>
+        <article class="step"><b>04 · REPORT</b><h3>Use the right channel</h3><p>Consumer fraud: FTC. Online crime: FBI IC3. Identity theft: IdentityTheft.gov.</p></article>
+      </div>
+    </section>
+
+    <section class="sources" aria-labelledby="sources-title">
+      <h2 id="sources-title">Primary sources</h2>
+      <p>Definitions and response guidance are synthesized from official U.S. regulator, law-enforcement, and financial-institution security resources.</p>
+      <div class="source-list">
+        <a href="https://www.fbi.gov/how-we-can-help-you/common-frauds-and-scams" target="_blank" rel="noopener">FBI · Common frauds and scams ↗</a>
+        <a href="https://www.fbi.gov/how-we-can-help-you/common-frauds-and-scams/business-email-compromise" target="_blank" rel="noopener">FBI · Business email compromise ↗</a>
+        <a href="https://www.ftc.gov/news-events/news/press-releases/2024/03/federal-trade-commission-warns-scammers-pretending-be-agency-staff" target="_blank" rel="noopener">FTC · Impersonation scams ↗</a>
+        <a href="https://consumer.ftc.gov/consumer-alerts/2023/11/searching-job-work-remotely-avoid-scams-identity-theft" target="_blank" rel="noopener">FTC · Job scams and identity theft ↗</a>
+        <a href="https://www.sec.gov/files/socialmediaandfraud.pdf" target="_blank" rel="noopener">SEC · Social media and investment fraud ↗</a>
+        <a href="https://WWW.cftc.gov/sites/default/files/2024/02/RomanceScam.pdf" target="_blank" rel="noopener">CFTC · Financial romance fraud ↗</a>
+        <a href="https://www.fdic.gov/consumers/consumer/news/august2019.html" target="_blank" rel="noopener">FDIC · Fake checks ↗</a>
+        <a href="https://fincen.gov/node/19153" target="_blank" rel="noopener">FinCEN · Imposter and money mule schemes ↗</a>
+        <a href="https://www.consumerfinance.gov/ask-cfpb/what-do-i-do-if-i-am-a-victim-of-identity-theft-en-31/" target="_blank" rel="noopener">CFPB · Identity theft response ↗</a>
+        <a href="https://www.justice.gov/criminal/criminal-white-collar/report-fraud?intcmp=AE-MON-RELBOX" target="_blank" rel="noopener">DOJ · Where to report fraud ↗</a>
+        <a href="https://www.chase.com/digital/resources/privacy-security/security/scam-stories?jp_cmp=rb/XP111504/ema/XLOBQ3SEC_0826_v3_CB_A/Body_Textlink_2#chase-impersonation" target="_blank" rel="noopener">Chase Security Center · How scams unfold ↗</a>
+        <a href="https://developers.google.com/search/help/report-quality-issues" target="_blank" rel="noopener">Google Search Central · Report deceptive sites ↗</a>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="shell">Educational reference only. Patterns evolve, and the absence of a listed signal does not make a request legitimate.</div></footer>
+
+  <div class="backdrop" id="backdrop"></div>
+  <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" aria-hidden="true">
+    <div class="drawer-top"><span id="drawer-id">CASE FILE</span><button class="close" id="close-drawer" aria-label="Close details">×</button></div>
+    <div class="drawer-body" id="drawer-body"></div>
+  </aside>
+
+  <script>
+    const sources = {
+      fbi: ["FBI · Common frauds and scams", "https://www.fbi.gov/how-we-can-help-you/common-frauds-and-scams"],
+      bec: ["FBI · Business email compromise", "https://www.fbi.gov/how-we-can-help-you/common-frauds-and-scams/business-email-compromise"],
+      ftc: ["FTC · Impersonation scams", "https://www.ftc.gov/news-events/news/press-releases/2024/03/federal-trade-commission-warns-scammers-pretending-be-agency-staff"],
+      job: ["FTC · Job scams", "https://consumer.ftc.gov/consumer-alerts/2023/11/searching-job-work-remotely-avoid-scams-identity-theft"],
+      sec: ["SEC · Social media and investment fraud", "https://www.sec.gov/files/socialmediaandfraud.pdf"],
+      romance: ["CFTC · Financial romance fraud", "https://WWW.cftc.gov/sites/default/files/2024/02/RomanceScam.pdf"],
+      checks: ["FDIC · Fake checks", "https://www.fdic.gov/consumers/consumer/news/august2019.html"],
+      mule: ["FinCEN · Imposter and money mule schemes", "https://fincen.gov/node/19153"],
+      identity: ["CFPB · Identity theft response", "https://www.consumerfinance.gov/ask-cfpb/what-do-i-do-if-i-am-a-victim-of-identity-theft-en-31/"],
+      chase: ["Chase Security Center · How scams unfold", "https://www.chase.com/digital/resources/privacy-security/security/scam-stories?jp_cmp=rb/XP111504/ema/XLOBQ3SEC_0826_v3_CB_A/Body_Textlink_2#chase-impersonation"],
+      google: ["Google Search Central · Report spam, phishing, or malware", "https://developers.google.com/search/help/report-quality-issues"],
+      firsthand: ["Firsthand account supplied to this repository", ""]
+    };
+
+    const scams = [
+      {
+        id:"FS-001", title:"Bank & government impersonation", category:"Impersonation", risk:"Critical",
+        summary:"A caller, text, or email poses as a bank, regulator, police officer, tax agency, or government employee to create fear and force a payment or transfer.",
+        signals:["safe account","urgent threat","spoofed caller ID"], rails:["Wire","Crypto","Cash","Gift card"], audience:"Consumers",
+        redFlags:["Claims your money is unsafe and must be moved immediately","Threatens arrest, deportation, frozen benefits, or account closure","Demands secrecy or asks you not to contact your bank","Requests payment by crypto ATM, gift card, cash courier, or wire"],
+        controls:["End the contact and call the institution using a number you independently verify","Require out-of-band verification for unusual payments","Add stepped review for first-time payees and high-risk rails"],
+        keywords:["bank","government","irs","police","federal","officer","safe account","protect your money","arrest","social security","account compromised","account is unsafe","bitcoin atm","gold bars","courier","do not tell","secrecy"], source:"ftc"
+      },
+      {
+        id:"FS-002", title:"Phishing, smishing & spoofing", category:"Identity", risk:"High",
+        summary:"A deceptive email, text, call, QR code, or website imitates a trusted brand to steal credentials, payment details, or one-time codes.",
+        signals:["lookalike domain","unexpected link","credential request"], rails:["Card","Account access"], audience:"Consumers & businesses",
+        redFlags:["Sender address differs slightly from the real domain","Unexpected link, attachment, QR code, or login prompt","Request for a password, PIN, or one-time verification code","Urgency tied to a delivery, refund, charge, or locked account"],
+        controls:["Navigate through the official app or a bookmarked site instead of the message","Use phishing-resistant MFA where available","Block lookalike domains and monitor credential-reset anomalies"],
+        keywords:["click link","verify account","password","one time code","otp","login","locked account","suspicious charge","text message","qr code","delivery fee","confirm your identity"], source:"fbi"
+      },
+      {
+        id:"FS-003", title:"Account takeover", category:"Identity", risk:"Critical",
+        summary:"Stolen credentials, session tokens, or social engineering give an attacker control of an existing bank, card, brokerage, or email account.",
+        signals:["new device","MFA reset","payee added"], rails:["ACH","Wire","Card","P2P"], audience:"Consumers & businesses",
+        redFlags:["Password, phone, email, or MFA method changes you did not make","New device or location followed by a new payee","Burst of small tests before a larger transfer","Security alerts disappear because contact details were changed"],
+        controls:["Lock the account and revoke active sessions","Reset the email account first if it may also be compromised","Review profile changes, added devices, payees, and transaction history"],
+        keywords:["hacked","account takeover","password changed","new device","mfa","two factor","verification code","unknown login","email changed","phone changed","unauthorized transfer","locked out"], source:"identity"
+      },
+      {
+        id:"FS-004", title:"SIM-swap fraud", category:"Identity", risk:"Critical",
+        summary:"A criminal ports a victim’s phone number to a new SIM, intercepts calls and texts, and uses SMS codes to take over financial accounts.",
+        signals:["sudden no service","carrier change","SMS interception"], rails:["Account access","Crypto","P2P"], audience:"Consumers",
+        redFlags:["Phone suddenly loses service without explanation","Unexpected carrier notice about a SIM or device change","Password-reset messages or unauthorized account access","High-value transfers shortly after the phone outage"],
+        controls:["Call the mobile carrier from another device and reverse the port","Use an authenticator or security key instead of SMS when possible","Set a carrier account PIN and port-out lock"],
+        keywords:["sim swap","no service","phone stopped working","carrier","sim card","port out","text codes","sms code","mobile number transferred"], source:"identity"
+      },
+      {
+        id:"FS-005", title:"Business email compromise", category:"Business", risk:"Critical",
+        summary:"An attacker impersonates or compromises an executive, employee, vendor, or title company and redirects a legitimate payment.",
+        signals:["changed instructions","lookalike email","wire request"], rails:["Wire","ACH","Gift card"], audience:"Businesses",
+        redFlags:["Last-minute change to bank or wiring instructions","Request to bypass normal approval or communicate only by email","Lookalike sender domain or mismatched reply-to address","Executive asks for secrecy, speed, gift cards, or payroll data"],
+        controls:["Verify payment changes through a known phone number","Use dual approval for beneficiary changes and wires","Secure email with strong MFA and review forwarding rules"],
+        keywords:["invoice","vendor","ceo","cfo","wire instructions","new bank account","payment details changed","gift cards for employees","title company","closing","urgent wire","reply to"], source:"bec"
+      },
+      {
+        id:"FS-006", title:"Mortgage closing wire fraud", category:"Business", risk:"Critical",
+        summary:"A spoofed or compromised message changes closing instructions so a buyer’s down payment is wired to an attacker-controlled account.",
+        signals:["closing deadline","new beneficiary","email-only change"], rails:["Wire"], audience:"Homebuyers & firms",
+        redFlags:["Wiring instructions change shortly before closing","Pressure to keep the change confidential or act before a deadline","Message thread looks familiar but sender or reply-to is altered","Account name or location does not match the expected settlement party"],
+        controls:["Confirm wiring instructions in person or by a previously known phone number","Treat all payment-detail changes as high risk","Contact the sending bank immediately if funds moved"],
+        keywords:["mortgage","home closing","down payment","escrow","title company","realtor","wiring instructions","settlement","closing funds"], source:"bec"
+      },
+      {
+        id:"FS-007", title:"Romance & relationship investment fraud", category:"Social engineering", risk:"Critical",
+        summary:"A new online relationship builds trust over time, then introduces an emergency, loan request, or fraudulent crypto and forex opportunity.",
+        signals:["never meets","private chat","crypto coaching"], rails:["Crypto","Wire","Gift card","P2P"], audience:"Consumers",
+        redFlags:["Moves quickly from a platform to private messaging","Always has a reason they cannot meet or video call","Claims special investing knowledge or guaranteed returns","Allows a small withdrawal, then demands taxes or fees to release more"],
+        controls:["Never send money or trade on a platform chosen by someone known only online","Verify profile images and claims independently","Stop contact if the relationship pivots to investing or urgent financial help"],
+        keywords:["dating","romance","love","online friend","wrong number","never met","cannot meet","crypto expert","investment platform","private messaging","telegram","whatsapp","medical emergency","military overseas"], source:"romance"
+      },
+      {
+        id:"FS-008", title:"Crypto investment platform fraud", category:"Investment", risk:"Critical",
+        summary:"A polished app or website shows fabricated gains while deposits go to criminals; withdrawals are blocked by invented fees, taxes, or verification charges.",
+        signals:["guaranteed returns","fake dashboard","withdrawal fee"], rails:["Crypto"], audience:"Consumers & investors",
+        redFlags:["Unsolicited investment coaching or guaranteed profit","Platform accepts only crypto or gives a specific wallet address","Account balance rises rapidly without market logic","Withdrawal requires more deposits, taxes, or unlock fees"],
+        controls:["Verify registration, custody, and withdrawal terms independently","Do not pay a fee to release funds already shown in an account","Preserve wallet addresses and transaction hashes for reporting"],
+        keywords:["crypto","bitcoin","ethereum","wallet","trading platform","guaranteed return","profit","withdrawal","unlock fee","tax to withdraw","liquidity mining","forex","trading app"], source:"sec"
+      },
+      {
+        id:"FS-009", title:"Ponzi & high-yield scheme", category:"Investment", risk:"Critical",
+        summary:"New investor money is used to pay earlier participants while the promoter claims consistent, unusually high returns from a secret or low-risk strategy.",
+        signals:["steady returns","secret strategy","recruitment pressure"], rails:["ACH","Wire","Crypto"], audience:"Investors",
+        redFlags:["High or unusually consistent returns with little risk","Vague, secret, or overly complex investment strategy","Unlicensed seller or unregistered offering","Difficulty receiving statements or withdrawing principal"],
+        controls:["Verify the seller and offering through independent regulator records","Demand third-party custody and audited statements","Treat recruiting incentives as a separate risk signal"],
+        keywords:["ponzi","high yield","guaranteed return","no risk","consistent returns","secret strategy","exclusive fund","monthly return","recruit investors","unlicensed broker"], source:"sec"
+      },
+      {
+        id:"FS-010", title:"Pump-and-dump manipulation", category:"Investment", risk:"High",
+        summary:"Promoters hype a thinly traded stock or token with false claims, sell into the resulting demand, and leave other buyers with steep losses.",
+        signals:["viral hype","thin liquidity","promoter exits"], rails:["Brokerage","Crypto"], audience:"Investors",
+        redFlags:["Urgent social posts, group chats, or newsletters tout a sure winner","Anonymous promoter claims inside information or a near-term catalyst","Sharp price-and-volume spike in a thinly traded asset","Compensation or holdings of the promoter are hidden"],
+        controls:["Research issuer filings and trading liquidity","Avoid acting solely on social media tips","Check whether the promoter discloses payment or ownership"],
+        keywords:["stock tip","pump and dump","meme coin","microcap","penny stock","insider tip","buy now","telegram group","price target","token launch"], source:"sec"
+      },
+      {
+        id:"FS-011", title:"Advance-fee & recovery scam", category:"Payment", risk:"High",
+        summary:"A fee is demanded before a promised loan, prize, inheritance, refund, recovery, or investment payout can be released—then more fees follow.",
+        signals:["pay before payout","processing fee","recovery promise"], rails:["Wire","Crypto","Gift card","P2P"], audience:"Consumers",
+        redFlags:["Payment is required before receiving money or a service","Fee is labeled tax, insurance, customs, legal, or processing","A recovery agent contacts you after a prior scam loss","Each payment reveals another supposed barrier"],
+        controls:["Do not pay anyone who guarantees recovery of stolen funds","Verify the organization through an independently sourced contact","Never send a payment to unlock a larger payment"],
+        keywords:["advance fee","processing fee","upfront fee","taxes first","release funds","inheritance","loan fee","recovery agent","recover your money","customs fee","insurance fee"], source:"ftc"
+      },
+      {
+        id:"FS-012", title:"Fake check & overpayment", category:"Payment", risk:"High",
+        summary:"A counterfeit check appears available in the account before the bank discovers it is bad; the victim sends part of the apparent funds elsewhere.",
+        signals:["overpayment","send money back","check later reverses"], rails:["Check","Wire","P2P","Gift card"], audience:"Consumers & businesses",
+        redFlags:["Check amount is greater than expected","Sender asks for a refund, vendor payment, or gift cards","Funds appear available and the sender insists that means the check cleared","Story involves a prize, sale, remote job, or mystery shopping"],
+        controls:["Do not return or forward funds from an unexpected check","Ask the bank when the check is finally settled—not merely available","Verify the payer and purpose independently"],
+        keywords:["check","cashier's check","cashiers check","overpaid","overpayment","send money back","refund the difference","cleared","mystery shopper","mobile deposit"], source:"checks"
+      },
+      {
+        id:"FS-013", title:"Job, task & equipment scam", category:"Social engineering", risk:"High",
+        summary:"A fake employer offers easy remote work, requests sensitive onboarding data, sends a bad equipment check, or requires deposits to unlock task earnings.",
+        signals:["text-only interview","pay to work","equipment check"], rails:["Check","Crypto","P2P"], audience:"Job seekers",
+        redFlags:["Interview happens only by chat or messaging app","Offer arrives unusually fast with little screening","Employer asks you to pay for equipment, training, or task access","A check is sent with instructions to buy equipment from a named vendor"],
+        controls:["Verify the opening through the employer’s independently located website","Never pay to get a job or unlock wages","Do not provide tax or direct-deposit data before verifying the employer"],
+        keywords:["job","remote work","employer","recruiter","interview on telegram","interview by text","equipment","training fee","task","commission","unlock tasks","work from home","direct deposit form"], source:"job"
+      },
+      {
+        id:"FS-014", title:"Money mule recruitment", category:"Payment", risk:"Critical",
+        summary:"A person is recruited—knowingly or unknowingly—to receive and move criminal proceeds through their bank, payment, or crypto accounts.",
+        signals:["keep a cut","receive then forward","use your account"], rails:["ACH","Wire","Crypto","P2P"], audience:"Consumers & job seekers",
+        redFlags:["Someone asks to use your account to receive money","You are paid a commission for forwarding funds","Job duties involve opening accounts, buying crypto, or reshipping value","Incoming transfers are rapidly followed by withdrawals or onward payments"],
+        controls:["Do not move money for someone you have not independently verified","Stop transactions and contact your financial institution","Preserve instructions and payment records for law enforcement"],
+        keywords:["receive money","forward money","use my account","keep a percentage","commission","money mule","transfer for them","convert to crypto","reship packages","open an account"], source:"mule"
+      },
+      {
+        id:"FS-015", title:"Tech support & refund scam", category:"Impersonation", risk:"Critical",
+        summary:"A fake support agent claims a device, account, subscription, or refund has a problem, then seeks remote access or manipulates the victim into returning money.",
+        signals:["remote access","fake refund","screen sharing"], rails:["Wire","Cash","Gift card","Account access"], audience:"Consumers",
+        redFlags:["Unexpected pop-up or call says your computer is infected","Caller requests remote-control software or screen sharing","A supposed refund appears too large and must be returned","You are told to log in to online banking while the caller watches"],
+        controls:["Do not grant remote access after unsolicited contact","Disconnect the device from the network if access was granted","Call the bank and the real vendor from independently verified channels"],
+        keywords:["tech support","computer virus","remote access","anydesk","teamviewer","screen share","refund","over refund","subscription renewal","geek squad","microsoft support","log into bank"], source:"fbi"
+      },
+      {
+        id:"FS-016", title:"Prize, lottery & sweepstakes scam", category:"Impersonation", risk:"High",
+        summary:"A target is told they won money or a prize but must first pay taxes, customs, insurance, or processing charges—or share bank details.",
+        signals:["unexpected win","fee to claim","limited window"], rails:["Wire","Gift card","Check"], audience:"Consumers",
+        redFlags:["You are told you won a contest you did not enter","Payment or banking information is required to claim the prize","The sender claims the offer is secret or expires immediately","A check arrives with instructions to send back taxes or fees"],
+        controls:["Never pay to claim a legitimate prize","Verify contests through the sponsor’s known channel","Do not deposit an unexpected check tied to a prize"],
+        keywords:["lottery","sweepstakes","won a prize","winner","claim prize","jackpot","tax fee","processing fee","customs","contest"], source:"fbi"
+      },
+      {
+        id:"FS-017", title:"Charity & disaster relief fraud", category:"Impersonation", risk:"Elevated",
+        summary:"A fake or copycat charity exploits urgency around a disaster, conflict, illness, or public cause to solicit funds or payment information.",
+        signals:["emotional appeal","copycat name","crypto donation"], rails:["Card","Crypto","P2P","Cash"], audience:"Donors",
+        redFlags:["Pressure to donate immediately after breaking news","Organization name closely resembles a known charity","Payment requested by gift card, crypto, wire, or person-to-person app","Canvasser cannot explain how funds will be used"],
+        controls:["Research the organization independently before donating","Use the charity’s official site rather than a message link","Review card statements for recurring or altered charges"],
+        keywords:["charity","donation","disaster relief","fundraiser","gofundme","urgent cause","victims","nonprofit","donate crypto","donate now"], source:"fbi"
+      },
+      {
+        id:"FS-018", title:"Fake merchant & online shopping scam", category:"Payment", risk:"High",
+        summary:"A fake storefront, subscription, or seller collects payment details or charges for goods and services that are counterfeit, misrepresented, or never delivered.",
+        signals:["too-good price","new storefront","hidden renewal"], rails:["Card","P2P"], audience:"Consumers",
+        redFlags:["Deep discount paired with urgency or a social-media-only storefront","No verifiable address, returns process, or customer service","Payment requested outside the marketplace or by person-to-person app","Trial quietly converts to hard-to-cancel recurring billing"],
+        controls:["Use a credit card where chargeback rights apply","Check independent reviews, domain age, and return terms","Avoid paying a seller outside the platform"],
+        keywords:["online store","merchant","never delivered","fake website","subscription","recurring charge","card charged","social media ad","too good to be true","marketplace","seller"], source:"fbi"
+      },
+      {
+        id:"FS-019", title:"Elder financial exploitation", category:"Exploitation", risk:"Critical",
+        summary:"A caregiver, relative, fiduciary, acquaintance, or stranger misuses an older adult’s money, property, authority, or trust.",
+        signals:["isolation","new controller","unusual withdrawals"], rails:["Cash","Check","Wire","Card"], audience:"Older adults",
+        redFlags:["New person controls access to accounts, mail, or communication","Abrupt changes to beneficiaries, powers of attorney, or spending","Unexplained withdrawals, unpaid bills, or missing valuables","The person appears coached, fearful, or unable to speak privately"],
+        controls:["Create a safe way to speak with the account holder alone","Review recent authority, profile, and beneficiary changes","Escalate concerns through the institution’s vulnerable-customer process"],
+        keywords:["elder","older adult","caregiver","power of attorney","poa","beneficiary changed","family member taking","missing money","unusual withdrawals","cannot speak privately"], source:"fbi"
+      },
+      {
+        id:"FS-020", title:"Recovery-room & secondary victimization", category:"Social engineering", risk:"High",
+        summary:"After an initial loss, a supposed investigator, law firm, regulator, or recovery specialist promises to retrieve funds in exchange for fees or more access.",
+        signals:["knows prior loss","guaranteed recovery","another fee"], rails:["Wire","Crypto","Account access"], audience:"Prior fraud victims",
+        redFlags:["Unsolicited contact references a real prior loss","Promises guaranteed recovery or access to frozen crypto","Requests a retainer, tax, bond, or wallet-activation payment","Uses names or logos of real law-enforcement agencies"],
+        controls:["Do not pay upfront for guaranteed recovery","Contact the agency or firm through independently verified information","Never share seed phrases, credentials, or remote access"],
+        keywords:["recover lost funds","recovery specialist","prior scam","investigator","law firm","frozen crypto","retainer","wallet activation","guaranteed recovery","get your money back"], source:"ftc"
+      },
+      {
+        id:"FS-021", title:"Family emergency & AI voice clone", category:"Impersonation", risk:"Critical",
+        summary:"A scammer impersonates a child, sibling, grandchild, or friend—sometimes with an AI-cloned voice or spoofed number—and invents an urgent crisis that needs money now.",
+        signals:["familiar voice","new number","secret emergency"], rails:["Wire","Gift card","P2P","Cash"], audience:"Families & caregivers",
+        redFlags:["A loved one suddenly asks for money from an unfamiliar number","The caller says there was an accident, arrest, stolen purse, or other emergency","You are asked not to tell another family member","The voice sounds familiar, but the caller resists a longer call or direct verification"],
+        controls:["Pause and call the person on a number you already know","Ask a private question or family safe word that is not posted online","Verify with another family member before sending money"],
+        keywords:["dad i'm in trouble","mom i'm in trouble","grandchild","grandparent scam","family emergency","stolen purse","accident","bail money","ai voice","voice clone","safe word","new number","do not tell mom"], source:"chase"
+      },
+      {
+        id:"FS-022", title:"Fake vacation rental & identity harvest", category:"Identity", risk:"High",
+        summary:"A cloned rental listing collects a deposit and personal documents for a property the scammer does not control, creating both payment loss and identity-theft risk.",
+        signals:["cloned listing","off-platform chat","ID photos"], rails:["Card","P2P","Wire","Identity data"], audience:"Travelers & renters",
+        redFlags:["The host moves communication from the rental platform to personal text or email","You are asked to send photos of ID or a payment card before arrival","A steep last-minute discount is tied to immediate payment","Payment must happen outside the platform, which may void fraud protections"],
+        controls:["Keep messages and payment inside the established rental platform","Verify the address, host, and listing history independently","Share only the minimum information needed for a legitimate booking"],
+        keywords:["vacation rental","cabin rental","airbnb","vrbo","fake listing","cloned listing","rental deposit","photo of id","pictures of id","off platform","holiday rental","property owner"], source:"chase"
+      },
+      {
+        id:"FS-023", title:"Fake ticket site & checkout redirect", category:"Payment", risk:"High",
+        summary:"A lookalike ticket site creates a checkout problem, redirects the buyer to a fake support number, and demands gift cards or another irreversible payment method.",
+        signals:["lookalike URL","checkout error","gift card payment"], rails:["Gift card","Card","P2P"], audience:"Event buyers",
+        redFlags:["The web address differs by a letter or symbol from the real seller","Checkout fails and a pop-up tells you to call a number","A supposed agent asks for gift-card numbers to complete the purchase","Scarcity or fear of missing out pushes you past an unusual payment request"],
+        controls:["Navigate to the ticket seller directly rather than through an ad or message","Verify support numbers on the official site","Never use gift cards to pay for tickets or fix a card-processing problem"],
+        keywords:["concert ticket","sports ticket","ticket site","sold out","seat","checkout error","payment system down","call this number","gift card number","ticket confirmation","lookalike url","event ticket"], source:"chase"
+      },
+      {
+        id:"FS-024", title:"Pet, puppy & breeder scam", category:"Payment", risk:"High",
+        summary:"A fake breeder or seller uses appealing animal photos to collect a reservation deposit, then adds shipping, quarantine, permit, or insurance fees for a pet that does not exist.",
+        signals:["reservation deposit","repeated fees","cannot meet"], rails:["P2P","Wire","Gift card"], audience:"Prospective pet owners",
+        redFlags:["The seller will not let you meet the animal or verify it live","New charges appear after the first deposit","Shipping, quarantine, permit, or insurance fees must be paid immediately","The seller threatens legal action or abandonment penalties when you stop paying"],
+        controls:["Research the breeder, rescue, and reviews beyond the seller's own page","Verify the animal and seller in person or through trusted local references","Do not keep paying when unexpected fees are added"],
+        keywords:["puppy","pet","breeder","dog for sale","kitten","reserve the puppy","pet deposit","shipping fee","quarantine fee","permit fee","pet insurance","animal abandonment"], source:"chase"
+      },
+      {
+        id:"FS-025", title:"Local service deposit scam", category:"Payment", risk:"High",
+        summary:"A fake contractor or service business advertises a timely deal, collects a deposit through an instant payment app, and never performs the work.",
+        signals:["social ad","last-minute slot","deposit by P2P"], rails:["P2P","Cash","Card"], audience:"Homeowners & consumers",
+        redFlags:["A new business has only a handful of recent reviews","A bargain is paired with a cancellation slot or limited availability","The provider requires an immediate deposit by person-to-person payment","There is no verifiable business address, license, or longer track record"],
+        controls:["Research the company through independent sources and licensing records","Get scope, price, and refund terms in writing","Use a payment method with dispute rights for unfamiliar providers"],
+        keywords:["contractor","yard cleanup","landscaper","home service","repair service","cleaning service","service deposit","cancellation slot","available tomorrow","zelle deposit","contractor no show","local business"], source:"chase"
+      },
+      {
+        id:"FS-026", title:"Check theft, washing & replication", category:"Payment", risk:"Critical",
+        summary:"A mailed check is stolen, chemically altered or digitally copied, then rewritten for a larger amount or used to create additional counterfeit checks and identity fraud.",
+        signals:["mail theft","altered payee","duplicate checks"], rails:["Check","Account access"], audience:"Consumers & businesses",
+        redFlags:["A mailed bill remains unpaid even though the check appears cashed","The posted check image shows a changed payee or amount","Checks appear out of sequence or duplicate details from a legitimate check","Unexpected accounts or identity-theft notices follow the missing check"],
+        controls:["Review posted check images and reconcile accounts promptly","Use secure electronic bill pay or hand mail to a postal employee when possible","Report altered checks and related identity theft to the bank immediately"],
+        keywords:["check washing","stolen check","mail theft","blue mailbox","altered check","rewritten check","changed payee","duplicate check","fake checks from my account","bill still unpaid","check image"], source:"chase"
+      },
+      {
+        id:"FS-027", title:"Sponsored search ad & fake support scam", category:"Identity", risk:"Critical",
+        summary:"Criminals buy sponsored search placements or impersonate advertising support so a trusted-looking ad, listing, email, or phone number routes people to credential theft, malware, or fraudulent payments.",
+        signals:["sponsored result","lookalike domain","swapped phone number"], rails:["Account access","Card","Wire","Malware"], audience:"Consumers, advertisers & businesses",
+        redFlags:["A sponsored result copies the name and branding of a bank, airline, home service, or other familiar company","The landing-page domain is misspelled, uses odd characters, or changes after a redirect","An urgent email claiming to be advertising support asks for login, billing, or account-recovery details","A search ad or business listing shows a customer-service number that differs from the established company website"],
+        controls:["Scroll past sponsored placements and navigate through the organization’s verified app, bookmark, or typed address","Cross-check phone numbers against the established business website before calling","Change passwords and contact the financial institution immediately if credentials or payment details were entered","Use the Report a site section to prepare the evidence, report the ad to Google, and submit the landing page to Google Safe Browsing"],
+        keywords:["google ad","sponsored result","sponsored search","search ad","fake ad","malicious ad","google ads support","advertiser account","lookalike domain","misspelled domain","fake support number","phone number swapped","business listing","malware download","phishing site"], source:"google", reportTool:true
+      },
+      {
+        id:"FS-028", title:"Stranded soldier / military impersonation con", category:"Impersonation", risk:"High",
+        summary:"A stranger at an airport, gas station, or transit stop claims to be a stranded service member and uses a detailed travel crisis plus an appeal to patriotism to ask for money.",
+        signals:["avalanche of details","patriotic appeal","money only"], rails:["Cash","P2P","Card access"], audience:"Travelers & motorists",
+        redFlags:["An elaborate Priceline, airline, base-travel, or lost-wallet story arrives all at once and is hard to verify","Military clothing, a duffel bag, or an alleged military ID is used to create instant credibility and appeal to patriotism","Only money will supposedly solve the problem; practical help such as airport staff, airline staff, or a military chain of command is rejected","The person becomes evasive, angry, or belligerent when staff are involved or the story is independently checked"],
+        controls:["Stop, slow down, and disengage rather than trying to resolve the story under pressure","Offer non-monetary help: direct the person to airport or station staff, the airline, local authorities, or their military chain of command","Do not hand over cash, send a person-to-person payment, or share payment credentials because of an unverified emergency","Use the same stop-and-verify rule as the bank-impersonation scam: end the contact, then reach the institution through an independently verified channel"],
+        keywords:["stranded soldier","stranded marine","military impersonation","military id","usmc","marine","soldier","airport","gas station","duffel bag","priceline","airline problem","back to base","chain of command","patriotism","veteran","needs money","travel emergency","belligerent","airport staff","only money"], source:"firsthand"
+      }
+    ];
+
+    const categories = ["All", ...new Set(scams.map(s => s.category))];
+    let activeCategory = "All";
+    let lastFocus = null;
+
+    const catalog = document.getElementById("catalog");
+    const filters = document.getElementById("filters");
+    const search = document.getElementById("search");
+    const resultCount = document.getElementById("result-count");
+    const drawer = document.getElementById("drawer");
+    const backdrop = document.getElementById("backdrop");
+
+    function escapeHtml(str) {
+      return str.replace(/[&<>'"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[c]));
+    }
+
+    function renderFilters() {
+      filters.innerHTML = categories.map(c => `<button class="chip" aria-pressed="${c === activeCategory}" data-category="${escapeHtml(c)}">${escapeHtml(c)}</button>`).join("");
+      filters.querySelectorAll("button").forEach(btn => btn.addEventListener("click", () => {
+        activeCategory = btn.dataset.category;
+        renderFilters(); renderCatalog();
+      }));
+    }
+
+    function renderCatalog() {
+      const q = search.value.trim().toLowerCase();
+      const shown = scams.filter(s => {
+        const inCategory = activeCategory === "All" || s.category === activeCategory;
+        const haystack = [s.title,s.category,s.summary,s.audience,...s.signals,...s.rails,...s.redFlags,...s.keywords].join(" ").toLowerCase();
+        return inCategory && (!q || haystack.includes(q));
+      });
+      resultCount.textContent = `${shown.length} of ${scams.length} case files`;
+      if (!shown.length) {
+        catalog.innerHTML = `<div class="empty"><strong>No patterns match that search.</strong><br>Try a payment method, channel, or broader phrase.</div>`;
+        return;
+      }
+      catalog.innerHTML = shown.map(s => `
+        <button class="case-card" data-id="${s.id}" aria-label="Open ${escapeHtml(s.title)} case file">
+          <div class="card-top"><span class="case-id">${s.id} · ${escapeHtml(s.category)}</span><span class="risk ${s.risk.toLowerCase()}">${s.risk}</span></div>
+          <div class="card-main"><h3>${escapeHtml(s.title)}</h3><p>${escapeHtml(s.summary)}</p><div class="signals">${s.signals.map(x=>`<span class="signal">${escapeHtml(x)}</span>`).join("")}</div></div>
+          <div class="card-foot"><span>Open case file</span><span aria-hidden="true">→</span></div>
+        </button>`).join("");
+      catalog.querySelectorAll(".case-card").forEach(card => card.addEventListener("click", () => openDrawer(card.dataset.id, card)));
+    }
+
+    function openDrawer(id, trigger) {
+      const s = scams.find(x => x.id === id); if (!s) return;
+      lastFocus = trigger;
+      const src = sources[s.source];
+      document.getElementById("drawer-id").textContent = `${s.id} · ${s.category}`;
+      document.getElementById("drawer-body").innerHTML = `
+        <span class="risk ${s.risk.toLowerCase()}">${s.risk} exposure</span>
+        <h2 id="drawer-title">${escapeHtml(s.title)}</h2>
+        <p class="summary">${escapeHtml(s.summary)}</p>
+        <div class="detail-section"><h3>What to be aware of</h3><ul>${s.redFlags.map(x=>`<li>${escapeHtml(x)}</li>`).join("")}</ul></div>
+        <div class="detail-section"><h3>Control points</h3><ul>${s.controls.map(x=>`<li>${escapeHtml(x)}</li>`).join("")}</ul></div>
+        <div class="detail-section"><h3>Typical rails & targets</h3><p><strong>Payment / access:</strong> ${s.rails.map(escapeHtml).join(" · ")}<br><strong>Often targets:</strong> ${escapeHtml(s.audience)}</p></div>
+        ${s.reportTool ? `<div class="detail-section"><h3>Report the site</h3><p><button class="text-link" id="open-report-tool">Submit a report for curator review →</button></p><p><a href="https://support.google.com/ads/contact/vio_other_aw_policy?hl=en" target="_blank" rel="noopener">Report the Google ad ↗</a><br><a href="https://www.google.com/safebrowsing/report_phish/?hl=en" target="_blank" rel="noopener">Submit the phishing page to Google Safe Browsing ↗</a></p></div>` : ""}
+        <div class="detail-section">${src[1] ? `<a class="source-link" href="${src[1]}" target="_blank" rel="noopener">${escapeHtml(src[0])} <span aria-hidden="true">↗</span></a>` : `<span class="source-link">${escapeHtml(src[0])}</span>`}</div>`;
+      drawer.classList.add("open"); backdrop.classList.add("open"); drawer.setAttribute("aria-hidden","false"); document.body.classList.add("modal-open");
+      const reportRoute = document.getElementById("open-report-tool");
+      if (reportRoute) reportRoute.addEventListener("click", () => { closeDrawer(); activateTab("report-tab"); });
+      document.getElementById("close-drawer").focus();
+    }
+    function closeDrawer() {
+      drawer.classList.remove("open"); backdrop.classList.remove("open"); drawer.setAttribute("aria-hidden","true"); document.body.classList.remove("modal-open");
+      if (lastFocus) lastFocus.focus();
+    }
+    document.getElementById("close-drawer").addEventListener("click", closeDrawer);
+    backdrop.addEventListener("click", closeDrawer);
+    document.addEventListener("keydown", e => { if (e.key === "Escape" && drawer.classList.contains("open")) closeDrawer(); });
+    search.addEventListener("input", renderCatalog);
+
+    const tabs = document.querySelectorAll(".tab");
+    function activateTab(tabId) {
+      const tab = document.getElementById(tabId);
+      if (!tab) return;
+      tabs.forEach(t => t.setAttribute("aria-selected", String(t === tab)));
+      document.querySelectorAll(".view").forEach(view => view.hidden = view.id !== tab.dataset.target);
+      const focusTarget = document.getElementById(tab.dataset.focus);
+      if (focusTarget) focusTarget.focus();
+    }
+    tabs.forEach(tab => tab.addEventListener("click", () => activateTab(tab.id)));
+
+    const story = document.getElementById("story");
+    const charCount = document.getElementById("char-count");
+    story.addEventListener("input", () => charCount.textContent = `${story.value.length.toLocaleString()} / 4,000`);
+
+    const phraseReasons = [
+      [["urgent","immediately","today","right now","deadline","act fast"], "Urgency or time pressure"],
+      [["gift card","bitcoin atm","crypto","wire transfer","cash courier","send cash"], "High-risk or hard-to-reverse payment method"],
+      [["do not tell","keep this secret","confidential","don't tell"], "Request for secrecy or isolation"],
+      [["password","one time code","otp","verification code","seed phrase"], "Request for credentials or authentication data"],
+      [["remote access","screen share","anydesk","teamviewer"], "Request for remote device access"],
+      [["guaranteed","no risk","sure profit","double your money"], "Guaranteed or implausible return claim"],
+      [["pay first","upfront fee","processing fee","tax to withdraw","unlock fee"], "Payment required before receiving funds or value"],
+      [["safe account","protect your money","move your savings"], "Instruction to move money for ‘protection’"],
+      [["send money back","refund the difference","overpaid"], "Request to return part of an incoming payment"],
+      [["new bank account","new wiring","changed payment","changed instructions"], "Unexpected change to payment instructions"]
+    ];
+
+    function scoreStory(text) {
+      const normalized = text.toLowerCase().replace(/[’]/g,"'");
+      const globalReasons = [];
+      let globalHits = 0;
+      phraseReasons.forEach(([terms, reason]) => {
+        const found = terms.filter(term => normalized.includes(term));
+        if (found.length) { globalReasons.push(reason); globalHits += Math.min(found.length, 2); }
+      });
+      const matches = scams.map(s => {
+        const hits = s.keywords.filter(k => normalized.includes(k));
+        const signalHits = s.signals.filter(k => normalized.includes(k));
+        return { scam:s, points: hits.length * 3 + signalHits.length * 2, hits:[...new Set([...hits,...signalHits])] };
+      }).filter(m => m.points > 0).sort((a,b) => b.points - a.points);
+      const top = matches.slice(0,3);
+      const best = top[0] ? top[0].points : 0;
+      const channelBoost = /call|text|email|message|online|social media|whatsapp|telegram/.test(normalized) ? 3 : 0;
+      const requestBoost = /send|pay|transfer|deposit|share|give|buy|move/.test(normalized) ? 5 : 0;
+      let score = Math.min(96, 8 + best * 5 + globalHits * 6 + channelBoost + requestBoost);
+      if (normalized.length < 25) score = Math.min(score, 34);
+      if (!matches.length && globalHits === 0) score = Math.min(24, Math.max(8, Math.round(normalized.length / 12)));
+      const level = score >= 70 ? "High" : score >= 40 ? "Medium" : "Low";
+      return { score, level, top, globalReasons };
+    }
+
+    document.getElementById("analyze").addEventListener("click", () => {
+      const text = story.value.trim();
+      if (!text) {
+        story.focus(); story.setAttribute("aria-invalid","true");
+        document.getElementById("result-placeholder").innerHTML = `<div><strong>Please add a description first.</strong><p>Even two or three sentences can help identify patterns.</p></div>`;
+        return;
+      }
+      story.removeAttribute("aria-invalid");
+      const result = scoreStory(text);
+      const levelClass = result.level.toLowerCase();
+      const matchMarkup = result.top.length ? result.top.map((m,i) => {
+        const reasons = [];
+        if (m.hits.length) reasons.push(`Matched cues: ${m.hits.slice(0,4).join(", ")}`);
+        if (i === 0 && result.globalReasons.length) reasons.push(result.globalReasons.slice(0,2).join("; "));
+        return `<div class="match-item"><div class="match-head"><b>${escapeHtml(m.scam.title)}</b><span>${Math.max(35, Math.min(98, 52 + m.points * 4 - i*7))}% pattern fit</span></div><p>${escapeHtml(reasons.join(". ") || m.scam.summary)}</p></div>`;
+      }).join("") : `<div class="match-item"><p>No strong repository pattern matched. That does not establish legitimacy—verify unexpected financial requests independently.</p></div>`;
+      const resultPlaceholder = document.getElementById("result-placeholder");
+      resultPlaceholder.hidden = true;
+      resultPlaceholder.style.display = "none";
+      const panel = document.getElementById("analysis-result");
+      panel.hidden = false;
+      panel.innerHTML = `
+        <div class="score-wrap"><div><h3>${result.level} likelihood</h3><p>Indicative pattern score</p></div><div class="score ${levelClass}">${result.score}%</div></div>
+        <div class="meter" aria-hidden="true"><span class="${levelClass}" style="width:${result.score}%"></span></div>
+        <div class="matches"><h4>${result.top.length ? "Closest pattern matches" : "Pattern result"}</h4>${matchMarkup}</div>
+        <div class="disclaimer"><strong>Important:</strong> This is an indicative estimate based on keyword and pattern matching. It is not a definitive determination and is not professional, financial, or legal advice. If money, credentials, or identity information may be at risk, stop contact and verify through an official channel.</div>`;
+    });
+
+    document.getElementById("clear-story").addEventListener("click", () => {
+      story.value = ""; charCount.textContent = "0 / 4,000"; story.removeAttribute("aria-invalid");
+      document.getElementById("analysis-result").hidden = true;
+      const placeholder = document.getElementById("result-placeholder"); placeholder.hidden = false; placeholder.style.display = "grid";
+      placeholder.innerHTML = `<div><div class="radar-mark" aria-hidden="true"></div><strong>Your result will appear here</strong><p>We’ll compare your description with the 28 patterns in this repository.</p></div>`;
+      story.focus();
+    });
+
+    renderFilters(); renderCatalog();
+  </script>
+</body>
+</html>
