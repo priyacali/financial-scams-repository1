@@ -276,7 +276,7 @@
         </div>
         <aside class="snapshot">
           <strong>Curated reference</strong>
-          <p>28 scam patterns across consumer, payment, identity, investment, and business fraud. Source review: September 2026.</p>
+          <p>40 scam patterns across consumer, payment, identity, investment, and business fraud. Source review: September 2026.</p>
         </aside>
       </div>
     </div>
@@ -284,7 +284,7 @@
 
   <nav class="tabs-wrap" aria-label="Repository sections">
     <div class="shell tabs" role="tablist">
-      <button class="tab" id="catalog-tab" role="tab" aria-selected="true" aria-controls="catalog-view" data-target="catalog-view" data-focus="search">Explore scams <span class="count">28</span></button>
+      <button class="tab" id="catalog-tab" role="tab" aria-selected="true" aria-controls="catalog-view" data-target="catalog-view" data-focus="search">Explore scams <span class="count">40</span></button>
       <button class="tab" id="checker-tab" role="tab" aria-selected="false" aria-controls="checker-view" data-target="checker-view" data-focus="story">Check your story</button>
       <button class="tab" id="report-tab" role="tab" aria-selected="false" aria-controls="report-view" data-target="report-view" data-focus="google-report-link">Report a site</button>
     </div>
@@ -322,7 +322,7 @@
         </div>
         <aside class="result-panel" id="result-panel" aria-live="polite">
           <div class="result-placeholder" id="result-placeholder">
-            <div><div class="radar-mark" aria-hidden="true"></div><strong>Your result will appear here</strong><p>We’ll compare your description with the 28 patterns in this repository.</p></div>
+            <div><div class="radar-mark" aria-hidden="true"></div><strong>Your result will appear here</strong><p>We’ll compare your description with the 40 patterns in this repository.</p></div>
           </div>
           <div id="analysis-result" hidden></div>
         </aside>
@@ -382,7 +382,7 @@
     </section>
   </main>
 
-  <footer><div class="shell">Educational reference only. Patterns evolve, and the absence of a listed signal does not make a request legitimate.</div></footer>
+  <footer><div class="shell">Educational reference only. Patterns evolve, and the absence of a listed signal does not make a request legitimate.<br><br>Disclaimer: this is an independent personal project. It is not affiliated with, endorsed by, or associated with PayPal or any other employer.</div></footer>
 
   <div class="backdrop" id="backdrop"></div>
   <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" aria-hidden="true">
@@ -437,7 +437,7 @@
         signals:["sudden no service","carrier change","SMS interception"], rails:["Account access","Crypto","P2P"], audience:"Consumers",
         redFlags:["Phone suddenly loses service without explanation","Unexpected carrier notice about a SIM or device change","Password-reset messages or unauthorized account access","High-value transfers shortly after the phone outage"],
         controls:["Call the mobile carrier from another device and reverse the port","Use an authenticator or security key instead of SMS when possible","Set a carrier account PIN and port-out lock"],
-        keywords:["sim swap","no service","phone stopped working","carrier","sim card","port out","text codes","sms code","mobile number transferred"], source:"identity"
+        keywords:["sim swap","no service","lost service","phone stopped working","carrier","sim card","port out","text codes","sms code","password reset","mobile number transferred"], source:"identity"
       },
       {
         id:"FS-005", title:"Business email compromise", category:"Business", risk:"Critical",
@@ -461,7 +461,7 @@
         signals:["never meets","private chat","crypto coaching"], rails:["Crypto","Wire","Gift card","P2P"], audience:"Consumers",
         redFlags:["Moves quickly from a platform to private messaging","Always has a reason they cannot meet or video call","Claims special investing knowledge or guaranteed returns","Allows a small withdrawal, then demands taxes or fees to release more"],
         controls:["Never send money or trade on a platform chosen by someone known only online","Verify profile images and claims independently","Stop contact if the relationship pivots to investing or urgent financial help"],
-        keywords:["dating","romance","love","online friend","wrong number","never met","cannot meet","crypto expert","investment platform","private messaging","telegram","whatsapp","medical emergency","military overseas"], source:"romance"
+        keywords:["dating","romance","love","overseas","stuck abroad","online friend","wrong number","never met","cannot meet","crypto expert","investment platform","private messaging","telegram","whatsapp","medical emergency","military overseas"], source:"romance"
       },
       {
         id:"FS-008", title:"Crypto investment platform fraud", category:"Investment", risk:"Critical",
@@ -630,6 +630,102 @@
         redFlags:["An elaborate Priceline, airline, base-travel, or lost-wallet story arrives all at once and is hard to verify","Military clothing, a duffel bag, or an alleged military ID is used to create instant credibility and appeal to patriotism","Only money will supposedly solve the problem; practical help such as airport staff, airline staff, or a military chain of command is rejected","The person becomes evasive, angry, or belligerent when staff are involved or the story is independently checked"],
         controls:["Stop, slow down, and disengage rather than trying to resolve the story under pressure","Offer non-monetary help: direct the person to airport or station staff, the airline, local authorities, or their military chain of command","Do not hand over cash, send a person-to-person payment, or share payment credentials because of an unverified emergency","Use the same stop-and-verify rule as the bank-impersonation scam: end the contact, then reach the institution through an independently verified channel"],
         keywords:["stranded soldier","stranded marine","military impersonation","military id","usmc","marine","soldier","airport","gas station","duffel bag","priceline","airline problem","back to base","chain of command","patriotism","veteran","needs money","travel emergency","belligerent","airport staff","only money"], source:"firsthand"
+      },
+      {
+        id:"FS-029", title:"Toll, parking & fine text smishing", category:"Identity", risk:"High",
+        summary:"Texts or emails claiming unpaid tolls, parking tickets, or DMV fines demand immediate payment through a link that harvests card and personal details.",
+        signals:["unpaid toll link","unknown sender","payment demand"], rails:["Card","Account access"], audience:"Consumers",
+        redFlags:["Message about a toll road, bridge, or parking fine you do not remember owing","Shortened link or domain that does not match the official agency","Threats of extra fines, license suspension, or collections within hours","Sender is a random phone number or email, not the agency's official channel"],
+        controls:["Never pay from the link; open the agency's official site or app yourself","Check your toll or parking account directly for any real balance","Report the message as spam and delete it"],
+        keywords:["toll","ez pass","fastrak","parking ticket","unpaid toll","dmv","license suspension","pay fine","violation notice","toll road","bridge toll"], source:"ftc"
+      },
+      {
+        id:"FS-030", title:"Fake package-delivery lure", category:"Identity", risk:"High",
+        summary:"A text or email pretends a package is held, undeliverable, or needs a redelivery fee, pushing the recipient to a phishing page that collects payment and identity details.",
+        signals:["delivery held","fee to release","lookalike carrier page"], rails:["Card","Account access"], audience:"Consumers",
+        redFlags:["Notice about a delivery you were not expecting","Request for a small redelivery or customs fee to release the package","Link leads to a page mimicking USPS, UPS, FedEx, or DHL but with a different domain","Asks for full card details or identity documents for a routine delivery"],
+        controls:["Track shipments only through the retailer's or carrier's official app or site","Treat any unexpected delivery notice with a fee as suspect","Delete the message and report it to the impersonated carrier"],
+        keywords:["package held","package","parcel","shipment","delivery","carrier","customs","link","redelivery fee","customs fee","usps","ups","fedex","dhl","delivery failed","tracking number","unable to deliver","claim your package"], source:"fbi"
+      },
+      {
+        id:"FS-031", title:"Utility shutoff doorstep shakedown", category:"Impersonation", risk:"High",
+        summary:"Someone shows up at the door or calls claiming to be from the electric, gas, or water company, demanding immediate payment to avoid a shutoff—often to a personal wallet, card, or cash.",
+        signals:["doorstep visit","shutoff threat","instant payment"], rails:["Cash","P2P","Card"], audience:"Consumers & small businesses",
+        redFlags:["Threatens to disconnect service within the hour unless you pay on the spot","Demands cash, gift cards, or a payment to a personal account or app","Cannot show official ID, a work order, or a marked company vehicle","Refuses to let you verify by calling the utility's published number"],
+        controls:["Real utilities send written notice before disconnection and never demand on-the-spot cash","Close the door and call the utility's official number to verify","Report aggressive doorstep collectors to the utility and local police"],
+        keywords:["utility","power company","shutoff","disconnection","electric bill","gas bill","water bill","pay now or","technician at door","service disconnected","past due utility"], source:"ftc"
+      },
+      {
+        id:"FS-032", title:"Pig butchering", category:"Social engineering", risk:"Critical",
+        summary:"A scammer fattens the victim with weeks of friendly contact and small early investment wins, then steers them to deposit large sums on a fake platform before disappearing with the money.",
+        signals:["long grooming","fake profits","fake platform"], rails:["Crypto","Wire"], audience:"Consumers & investors",
+        redFlags:["Contact starts as a wrong-number text or friendly stranger and turns personal fast","Early small investments show impressive, easy profits","Pressure to add larger sums to unlock better returns or tiers","Withdrawals blocked by taxes, fees, or new deposit requirements"],
+        controls:["Never move a conversation with a stranger to an investment platform","Verify every platform independently before sending a dollar","Cut contact and preserve wallet addresses for reporting"],
+        keywords:["pig butchering","fattening","wrong number text","investment mentor","crypto trading mentor","fake exchange","profits frozen","unlock fee","tier upgrade","trading coach"], source:"fbi"
+      },
+      {
+        id:"FS-033", title:"Money-flip & card-cracking", category:"Payment", risk:"High",
+        summary:"Social media posts promise to multiply your money—send $100, get $1,000 back. Victims hand over card logins or card details; criminals deposit fake checks, withdraw real cash, and leave the victim liable.",
+        signals:["multiply money","card login request","fake check deposit"], rails:["ACH","P2P","Card","Cash"], audience:"Consumers",
+        redFlags:["Guaranteed multiplication of money with no real explanation","Asks for your debit card, PIN, or online banking login","Involves depositing a check or money order and quickly withdrawing or sending funds","Testimonials and screenshots that cannot be verified"],
+        controls:["Never share card details, PIN, or banking logins with anyone","No legitimate process turns a small deposit into large cash","Report the account and any checks involved to your bank immediately"],
+        keywords:["flip money","money flip","double your money","card cracking","send $100 get $1000","instagram money","cashapp flip","deposit this check","bank login","flip your cash"], source:"fbi"
+      },
+      {
+        id:"FS-034", title:"Fake debt collection", category:"Impersonation", risk:"High",
+        summary:"Aggressive callers claim you owe a debt—sometimes naming a real creditor—and threaten lawsuits, wage garnishment, or arrest unless you pay immediately by card, wire, or money order.",
+        signals:["unknown debt","legal threats","instant payment"], rails:["Card","Wire","Cash"], audience:"Consumers",
+        redFlags:["Cannot or will not provide written validation of the debt","Threatens arrest, jail, or immediate lawsuit—real collectors cannot have you arrested for debt","Demands payment by gift card, wire, or cash courier","Refuses to give a company name, license number, or mailing address"],
+        controls:["Demand written debt validation before paying anything","Collectors must identify themselves and their company—hang up if they will not","Report abusive collectors to the FTC and your state attorney general"],
+        keywords:["debt collector","owe money","payday loan debt","wage garnishment","lawsuit threat","arrest for debt","debt validation","phantom debt","collection agency","judgment"], source:"ftc"
+      },
+      {
+        id:"FS-035", title:"Jury-duty / arrest-warrant phone scam", category:"Impersonation", risk:"High",
+        summary:"A caller claiming to be a sheriff, marshal, or court officer says you missed jury duty or have an active warrant, and demands immediate payment of a fine to avoid arrest.",
+        signals:["missed jury duty","warrant threat","pay fine now"], rails:["Card","Gift card","Crypto","Cash"], audience:"Consumers",
+        redFlags:["Threatens immediate arrest for missing jury duty","Demands payment of a fine over the phone by gift card, crypto, or prepaid card","Spoofs a law-enforcement caller ID and uses badge numbers or case numbers to sound official","Orders you to stay on the phone and keep the matter secret"],
+        controls:["Real courts notify by mail and never demand phone payment","Hang up and call the court or sheriff's office at a published number","Report the call to local law enforcement"],
+        keywords:["jury duty","missed jury","arrest warrant","sheriff","marshal","bench warrant","failure to appear","pay the fine","avoid arrest","badge number","court fine"], source:"fbi"
+      },
+      {
+        id:"FS-036", title:"Apartment rental deposit fraud", category:"Payment", risk:"High",
+        summary:"A fake landlord or hijacked listing advertises a desirable apartment at a low price, collects an application fee or security deposit upfront, then vanishes—or never had the property at all.",
+        signals:["below-market rent","upfront deposit","no in-person viewing"], rails:["P2P","Wire","Cash","Cashier's check"], audience:"Renters",
+        redFlags:["Rent is far below market for the area and photos look staged or duplicated","Landlord claims to be out of town and cannot show the unit","Demands deposit or application fee before any viewing or lease","Only communicates by text or email and pushes for quick payment"],
+        controls:["Tour the unit in person and verify the landlord owns or manages it","Search the listing photos and address for duplicates or hijacked ads","Never send deposits by wire, cash app, or cash to someone you have not met"],
+        keywords:["apartment rental","fake landlord","rental deposit","application fee","below market rent","hijacked listing","out of town landlord","no viewing","security deposit","lease signing"], source:"ftc"
+      },
+      {
+        id:"FS-037", title:"Debt-relief & credit-repair scam", category:"Payment", risk:"High",
+        summary:"A company promises to slash or erase credit-card, student-loan, or tax debt for an upfront fee, then delivers little or nothing while collecting personal financial details.",
+        signals:["upfront fee","guaranteed relief","no results"], rails:["ACH","Card","Wire"], audience:"Consumers",
+        redFlags:["Guarantees debt will be eliminated or cut dramatically","Demands a large fee before any service is performed","Asks for bank logins or full financial account details early","No written contract, license, or verifiable track record"],
+        controls:["Never pay upfront for debt relief—legitimate counselors charge little or nothing","Check the company with your state attorney general and the FTC","Get every promise in writing before sharing financial information"],
+        keywords:["debt relief","eliminate debt","credit repair","student loan forgiveness","tax debt settlement","upfront fee","debt consolidation","guaranteed approval"], source:"ftc"
+      },
+      {
+        id:"FS-038", title:"Mortgage & refinance fee scam", category:"Payment", risk:"High",
+        summary:"A supposed lender or broker promises a much lower rate or rescue from foreclosure in exchange for an upfront fee or sensitive documents, then disappears or harvests the documents for identity theft.",
+        signals:["upfront fee","too-good rate","document harvest"], rails:["Wire","Cash","P2P"], audience:"Homeowners",
+        redFlags:["Promises a dramatically lower rate with no credit check","Demands an upfront application, processing, or insurance fee","Asks for Social Security numbers, bank statements, or deeds before any real application","Pressures you to sign quickly or stop paying your current mortgage"],
+        controls:["Work only with your existing lender or a verified, licensed institution","Never pay fees before a loan is actually funded","Do not stop mortgage payments on a stranger's advice"],
+        keywords:["refinance","lower your rate","mortgage rescue","foreclosure rescue","stop foreclosure","loan modification","processing fee","upfront mortgage fee","bad credit approved"], source:"ftc"
+      },
+      {
+        id:"FS-039", title:"Payment-app accidental-payment scam", category:"Payment", risk:"High",
+        summary:"A stranger claims they sent you money by mistake on a payment app and asks you to send it back—either the incoming payment was fake or stolen funds, leaving you out of pocket when it is reversed.",
+        signals:["mistaken payment","send it back","reversal risk"], rails:["P2P"], audience:"Consumers",
+        redFlags:["An unexpected payment arrives from a stranger with a request to return it","They want you to send a new payment rather than using the app's refund feature","Pressure to act before you can check with the app or your bank","The original payment later bounces or is reversed"],
+        controls:["Do not send a new payment—use the app's official refund or decline process","Contact the payment app or your bank to handle the reversal","Let unexpected funds sit until the app confirms they are legitimate"],
+        keywords:["accidentally sent","sent by mistake","send it back","zelle sent wrong","venmo wrong person","cash app refund","payment reversal","wrong number payment"], source:"fbi"
+      },
+      {
+        id:"FS-040", title:"Gift-card payment demand scam", category:"Impersonation", risk:"High",
+        summary:"Someone posing as a bank, government agency, utility, or tech company demands payment by gift card—buy the cards, share the codes, and the money is gone with no way to reverse it.",
+        signals:["gift card demand","share the codes","no reversal"], rails:["Gift card"], audience:"Consumers",
+        redFlags:["Any bill, fine, tax, or fee that must be paid with gift cards","Instructions to buy cards at a specific store and read the codes over the phone","Threats of arrest, disconnection, or account closure if you do not comply","Requests to keep the purchase secret from store staff or family"],
+        controls:["No legitimate business or agency accepts gift cards as payment","Hang up and verify through an official channel","Report the demand to the FTC and the gift-card issuer"],
+        keywords:["gift card","apple gift card","google play card","buy gift cards","read the codes","scratch off code","pay with gift card","itunes card"], source:"ftc"
       }
     ];
 
@@ -741,16 +837,29 @@
         const found = terms.filter(term => normalized.includes(term));
         if (found.length) { globalReasons.push(reason); globalHits += Math.min(found.length, 2); }
       });
+      const storyWords = normalized.split(/[^a-z0-9']+/).filter(Boolean);
+      function keywordHit(k) {
+        if (normalized.includes(k)) return true;
+        const parts = k.split(/[^a-z0-9]+/).filter(Boolean);
+        if (!parts.length) return false;
+        return parts.every(p => {
+          const stem = p.length > 5 ? p.slice(0, 5) : p;
+          return storyWords.some(w => p.length >= 4 ? w.startsWith(stem) : w === p);
+        });
+      }
       const matches = scams.map(s => {
-        const hits = s.keywords.filter(k => normalized.includes(k));
+        const hits = s.keywords.filter(keywordHit);
         const signalHits = s.signals.filter(k => normalized.includes(k));
         return { scam:s, points: hits.length * 3 + signalHits.length * 2, hits:[...new Set([...hits,...signalHits])] };
       }).filter(m => m.points > 0).sort((a,b) => b.points - a.points);
       const top = matches.slice(0,3);
       const best = top[0] ? top[0].points : 0;
-      const channelBoost = /call|text|email|message|online|social media|whatsapp|telegram/.test(normalized) ? 3 : 0;
+      const bestCues = top[0] ? top[0].hits.length : 0;
+      const channelBoost = /call|text|link|email|message|online|social media|whatsapp|telegram/.test(normalized) ? 3 : 0;
       const requestBoost = /send|pay|transfer|deposit|share|give|buy|move/.test(normalized) ? 5 : 0;
       let score = Math.min(96, 8 + best * 5 + globalHits * 6 + channelBoost + requestBoost);
+      if (bestCues >= 3) score = Math.max(score, 70);
+      else if (bestCues === 2) score = Math.max(score, 52);
       if (normalized.length < 25) score = Math.min(score, 34);
       if (!matches.length && globalHits === 0) score = Math.min(24, Math.max(8, Math.round(normalized.length / 12)));
       const level = score >= 70 ? "High" : score >= 40 ? "Medium" : "Low";
@@ -789,7 +898,7 @@
       story.value = ""; charCount.textContent = "0 / 4,000"; story.removeAttribute("aria-invalid");
       document.getElementById("analysis-result").hidden = true;
       const placeholder = document.getElementById("result-placeholder"); placeholder.hidden = false; placeholder.style.display = "grid";
-      placeholder.innerHTML = `<div><div class="radar-mark" aria-hidden="true"></div><strong>Your result will appear here</strong><p>We’ll compare your description with the 28 patterns in this repository.</p></div>`;
+      placeholder.innerHTML = `<div><div class="radar-mark" aria-hidden="true"></div><strong>Your result will appear here</strong><p>We’ll compare your description with the 40 patterns in this repository.</p></div>`;
       story.focus();
     });
 
